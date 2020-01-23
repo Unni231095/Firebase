@@ -17,6 +17,7 @@ import { AddUserComponent } from './components/add-user/add-user.component';
 import { ListUserComponent } from './components/list-user/list-user.component';
 
 import { ToastrModule } from 'ngx-toastr';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -33,9 +34,10 @@ import { ToastrModule } from 'ngx-toastr';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
     ToastrModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [
+    AngularFireAuth,
     AngularFirestore,
   ],
   bootstrap: [AppComponent]

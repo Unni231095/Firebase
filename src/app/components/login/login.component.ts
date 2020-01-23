@@ -1,7 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiCallService } from 'src/app/common/api-call/api-call.service';
 import { ToastrService } from 'ngx-toastr';
+
+import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-login',
@@ -20,13 +23,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private apiCallService: ApiCallService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public afAuth: AngularFireAuth,
+    public ngZone: NgZone
   ) { }
 
   ngOnInit() { }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   loginButtonClick() {
@@ -49,5 +56,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     } else {
       this.toastr.error('User not registered');
     }
+  }
+
+  doGoogleLogin() {
+    sessionStorage.setItem('googleLogin', 'true');
+    return new Promise<any>((resolve, reject) => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('profile');
+      provider.addScope('email');
+      this.afAuth.auth
+        .signInWithPopup(provider)
+        .then(res => {
+          this.ngZone.run(() => {
+            this.router.navigate(['dashboard/list-user']);
+          });
+        }).catch((error) => {
+          window.alert(error);
+        });
+    });
   }
 }

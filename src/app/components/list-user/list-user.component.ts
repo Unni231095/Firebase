@@ -20,7 +20,9 @@ export class ListUserComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptionUserDetails.unsubscribe();
+    if (this.subscriptionUserDetails) {
+      this.subscriptionUserDetails.unsubscribe();
+    }
   }
 
   listUserDetails() {

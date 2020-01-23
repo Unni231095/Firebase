@@ -1,5 +1,22 @@
-<div>
-    <p *ngFor="let item of userDetailsList">
-        {{item.firstName}}
-    </p>
+<div class="container">
+  <div class="card">
+    <table class="table">
+      <thead>
+        <th>Sl No.</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Email Id</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of userDetailsList; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{item.firstName}} {{item.lastName}}</td>
+          <td>{{item.mobileNumber}}</td>
+          <td>{{item.email}}</td>
+          <td><a class="btn text-danger" (click)="onDelete(emp.id)"><i class="fa fa-trash"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

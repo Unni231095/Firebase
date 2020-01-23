@@ -39,5 +39,17 @@ export class AddUserComponent implements OnInit {
     };
     this.apiCallService.addUser(addUserCredentialData);
     this.toastr.success('Success');
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.userDetails = {
+      email: '',
+      firstName: '',
+      lastName: '',
+      mobileNumber: '',
+      password: '',
+      username: '',
+    };
   }
 }
